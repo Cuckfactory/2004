@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SIGNED IN — night session</title>
+  <meta name="description" content="A 2004 XP desktop that still has your number. MSN, Winamp, and a night you keep spending." />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@solana/web3.js@1.98.4/lib/index.iife.min.js"></script>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect fill='%230054e3' width='16' height='16'/><circle cx='8' cy='8' r='4' fill='%233c3'/></svg>" />
+</head>
+<body>
+  <div id="boot">
+    <div class="logo">SIGNED IN</div>
+    <div class="sub">.NET Messenger Service &nbsp;·&nbsp; Winamp &nbsp;·&nbsp; the long night</div>
+    <div class="bar"><i></i></div>
+    <div class="hint">click once if the machine asks for sound. it will.</div>
+  </div>
+
+  <div id="dawn"></div>
+  <div id="desktop">
+    <div class="icons">
+      <div class="desk-icon" data-open="comp" tabindex="0">
+        <div class="pic">💻</div>
+        <div class="label">My Computer</div>
+      </div>
+      <div class="desk-icon" data-open="recycle" tabindex="0">
+        <div class="pic">🗑️</div>
+        <div class="label">Recycle Bin</div>
+      </div>
+      <div class="desk-icon" data-open="msn" tabindex="0">
+        <div class="pic">🟢</div>
+        <div class="label">MSN Messenger</div>
+      </div>
+      <div class="desk-icon" data-open="winamp" tabindex="0">
+        <div class="pic">🧡</div>
+        <div class="label">Winamp</div>
+      </div>
+      <div class="desk-icon" data-open="ledger" tabindex="0">
+        <div class="pic">📒</div>
+        <div class="label">Night Ledger</div>
+      </div>
+      <div class="desk-icon" data-open="note" tabindex="0">
+        <div class="pic">📄</div>
+        <div class="label">readme.txt</div>
+      </div>
+      <div class="desk-icon" data-open="soli" tabindex="0">
+        <div class="pic">🃏</div>
+        <div class="label">Solitaire</div>
+      </div>
+      <div class="desk-icon" data-open="quote" tabindex="0">
+        <div class="pic">📈</div>
+        <div class="label">Quote.com</div>
+      </div>
+      <div class="desk-icon" data-open="mine" tabindex="0">
+        <div class="pic">💣</div>
+        <div class="label">Minesweeper</div>
+      </div>
+      <div class="desk-icon" data-open="sticky" tabindex="0">
+        <div class="pic">💛</div>
+        <div class="label">sticky.txt</div>
+      </div>
+      <div class="desk-icon" data-open="paint" tabindex="0">
+        <div class="pic">🎨</div>
+        <div class="label">Paint</div>
+      </div>
+      <div class="desk-icon" data-open="license" tabindex="0">
+        <div class="pic">🪪</div>
+        <div class="label">Professional</div>
+      </div>
+    </div>
+
+    <!-- MSN -->
+    <div class="window hidden" id="msn" data-task="MSN Messenger" style="left:88px;top:36px;width:280px;height:460px;">
+      <div class="titlebar">
+        <div class="wicon">🟢</div>
+        <div class="wtit">MSN Messenger</div>
+        <div class="ctrls">
+          <div class="ctrl" data-act="min">_</div>
+          <div class="ctrl close" data-act="close">✕</div>
+        </div>
+      </div>
+      <div class="menubar"><span>File</span><span>Contacts</span><span>Actions</span><span>Tools</span><span>Help</span></div>
+      <div class="wbody">
+        <div class="msn-side">
+          <div class="msn-me">
+            <div class="dp">🌙</div>
+            <div class="who">
+              <div class="nm">you@night.local</div>
+              <div class="st" id="me-status">listening to something I can't name</div>
+            </div>
+          </div>
+          <input class="msn-search" id="status-edit" value="listening to something I can't name" />
+          <div id="msn-list"></div>
+        </div>
+      </div>
+      <div class="statusbar">Signed in · 2004 never left</div>
+    </div>
+
+    <!-- Winamp -->
+    <div class="window hidden" id="winamp" data-task="WINAMP" style="left:420px;top:40px;width:300px;height:auto;">
+      <div class="titlebar">
+        <div class="wicon">🧡</div>
+        <div class="wtit">WINAMP &nbsp;·&nbsp; it really whips</div>
+        <div class="ctrls">
+          <div class="ctrl" data-act="min">_</div>
+          <div class="ctrl close" data-act="close">✕</div>
+        </div>
+      </div>
+      <div class="wa-body wbody" style="background:transparent;overflow:visible;">
+        <div class="wa-top">
+          <canvas class="wa-vis" id="wa-canvas" width="76" height="52"></canvas>
+          <div class="wa-meta">
+            <div class="wa-lcd">
+              <div class="time" id="wa-time">■ 00:00</div>
+              <div class="track" id="wa-track">1. 17 untitled (bedroom take).mp3</div>
+            </div>
+          </div>
+        </div>
+        <div class="wa-btns">
+          <button id="wa-prev">⏮</button>
+          <button id="wa-play">▶</button>
+          <button id="wa-next">⏭</button>
+          <input class="vol" id="vol" type="range" min="0" max="0.7" step="0.01" value="0.35" />
+        </div>
+        <div id="wa-list" style="max-height:140px;overflow:auto;margin-top:6px;background:#111;border:1px solid #000;"></div>
+      </div>
+    </div>
+
+    <!-- Ledger -->
+    <div class="window hidden" id="ledger" data-task="Night Ledger" style="left:740px;top:80px;width:340px;height:480px;">
+      <div class="titlebar">
+        <div class="wicon">📒</div>
+        <div class="wtit">Night Ledger.exe</div>
+        <div class="ctrls">
+          <div class="ctrl" data-act="min">_</div>
+          <div class="ctrl close" data-act="close">✕</div>
+        </div>
+      </div>
+      <div class="wbody"><div class="ledger" id="ledger-body"></div></div>
+    </div>
+
+    <!-- readme -->
+    <div class="window hidden" id="note" data-task="readme.txt" style="left:300px;top:120px;width:420px;height:360px;">
+      <div class="titlebar">
+        <div class="wicon">📄</div>
+        <div class="wtit">readme.txt - Notepad</div>
+        <div class="ctrls">
+          <div class="ctrl" data-act="min">_</div>
+          <div class="ctrl close" data-act="close">✕</div>
+        </div>
+      </div>
+      <div class="menubar"><span>File</span><span>Edit</span><span>Format</span><span>Help</span></div>
+      <div class="wbody">
+        <textarea class="note">SIGNED IN
+a desktop you shouldn't still be on
+====================================
+
+it is some hour that only exists on CRT glass.
+your buddy list is a garden you forgot to water
+and also the only garden that ever knew your real name.
+
+HOW TO STAY
+- double-click the green messenger. talk. they leave if you don't.
+- play Winamp. matching a contact's genre (emo / nu-metal / pop / ambient / idm)
+  slows their disappearing.
+- Memory is the currency. good answers mint it. the Ledger spends it.
+- Dawn is coming. it always is. survive it; the next dusk keeps your upgrades.
+- old_screenname lives in the Recycle Bin until you can afford to remember.
+
+the pings are supposed to feel like someone thought of you
+in another zip code.
+
+do not look at the clock.
+look at the names.
+
+— you, 2:14 AM, a year that isn't this one
+</textarea>
+      </div>
+    </div>
+
+    <!-- recycle -->
+    <div class="window hidden" id="recycle" data-task="Recycle Bin" style="left:160px;top:160px;width:360px;height:240px;">
+      <div class="titlebar">
+        <div class="wicon">🗑️</div>
+        <div class="wtit">Recycle Bin</div>
+        <div class="ctrls">
+          <div class="ctrl" data-act="min">_</div>
+          <div class="ctrl close" data-act="close">✕</div>
+        </div>
+      </div>
+      <div class="wbody" style="padding:16px;font-size:12px;line-height:1.6;background:#fff;">
+        <p><b>old_screenname.msn</b> — 2 KB — deleted May 2004</p>
+        <p><b>final_final_mix.mp3</b> — it still skips at 1:13</p>
+        <p><b>away_messages.txt</b> — "not here. also here."</p>
+        <p style="margin-top:12px;color:#666;font-style:italic;">
+          restore the first one from the Night Ledger when you have enough memory.
+          some files only look deleted.
+        </p>
+      </div>
+    </div>
+
+    <!-- my computer -->
+    <div class="window hidden" id="comp" data-task="My Computer" style="left:200px;top:80px;width:400px;height:280px;">
+      <div class="titlebar">
+        <div class="wicon">💻</div>
+        <div class="wtit">My Computer</div>
+        <div class="ctrls">
+          <div class="ctrl" data-act="min">_</div>
+          <div class="ctrl close" data-act="close">✕</div>
+        </div>
+      </div>
+      <div class="wbody" style="padding:16px;font-size:12px;background:#fff;">
+        <p>Local Disk (C:) — 12.0 GB used of 19.9 GB</p>
+        <p style="margin-top:8px;">Program Files\Winamp\</p>
+        <p>Program Files\MSN Messenger\</p>
+        <p>Documents and Settings\you\My Music\burned\</p>
+        <p>Documents and Settings\you\My Documents\away drafts\</p>
+        <p style="margin-top:14px;color:#555;">Shared Documents — 0 files. you never learned to share like that.</p>
+      </div>
+    </div>
+
+    <!-- minesweeper -->
+    <div class="window hidden" id="mine" data-task="Minesweeper" style="left:560px;top:70px;width:268px;height:340px;">
+      <div class="titlebar">
+        <div class="wicon">💣</div>
+        <div class="wtit">Minesweeper</div>
+        <div class="ctrls">
+          <div class="ctrl" data-act="min">_</div>
+          <div class="ctrl close" data-act="close">✕</div>
+        </div>
+      </div>
+      <div class="menubar"><span>Game</span><span>Help</span></div>
+      <div class="wbody">
+        <div class="mine-wrap">
+          <div class="mine-hud">
+            <div class="lcd" id="mine-left">010</div>
+            <button id="mine-face" title="new game">🙂</button>
+            <div class="lcd" id="mine-time">000</div>
+          </div>
+          <div id="mine-grid"></div>
+          <p class="mine-note">flag with right-click. the night is already a minefield.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- sticky -->
+    <div class="window hidden" id="sticky" data-task="sticky.txt" style="left:720px;top:300px;width:240px;height:220px;">
+      <div class="titlebar">
+        <div class="wicon">💛</div>
+        <div class="wtit">sticky.txt</div>
+        <div class="ctrls">
+          <div class="ctrl" data-act="min">_</div>
+          <div class="ctrl close" data-act="close">✕</div>
+        </div>
+      </div>
+      <div class="wbody">
+        <textarea class="sticky" id="sticky-note">2:03
+don't sign off first.
+if jess sends a song, leave it on.
+lasagna is not a metaphor.
+password is still the dog's name.
+</textarea>
+      </div>
+    </div>
+
+    <!-- solitaire -->
+    <div class="window hidden" id="soli" data-task="Solitaire" style="left:200px;top:28px;width:640px;height:470px;">
+      <div class="titlebar">
+        <div class="wicon">🃏</div>
+        <div class="wtit">Solitaire</div>
+        <div class="ctrls">
+          <div class="ctrl" data-act="min">_</div>
+          <div class="ctrl close" data-act="close">✕</div>
+        </div>
+      </div>
+      <div class="menubar">
+        <span id="soli-new">Game</span>
+        <span id="soli-drawmode">Deal: 1 card</span>
+        <span>Help</span>
+      </div>
+      <div class="wbody">
+        <div class="soli-board" id="soli-board"></div>
+      </div>
+    </div>
+
+    <!-- Quote.com / NightTicker 98 -->
+    <div class="window hidden" id="quote" data-task="Quote.com" style="left:180px;top:28px;width:640px;height:500px;">
+      <div class="titlebar">
+        <div class="wicon">📈</div>
+        <div class="wtit">Quote.com — NightTicker 98</div>
+        <div class="ctrls">
+          <div class="ctrl" data-act="min">_</div>
+          <div class="ctrl close" data-act="close">✕</div>
+        </div>
+      </div>
+      <div class="ie-bar">
+        <span class="ie-label">Address</span>
+        <div class="ie-url">http://quote.signed-in.local/markets/afterhours</div>
+        <button id="quote-go">Go</button>
+      </div>
+      <div class="wbody quote-body">
+        <div class="ticker-tape" id="ticker-tape">WAITING FOR CARRIER············</div>
+        <div class="quote-tools">
+          <input id="quote-q" maxlength="80" placeholder="ticker / pair / contract (plak later je CA)" />
+          <button id="quote-search">Quote</button>
+          <button id="quote-dex">DexScreener</button>
+          <button id="quote-eth">MetaMask</button>
+          <button id="quote-sol">Phantom</button>
+        </div>
+        <div class="quote-meta" id="quote-meta">After-hours session · feed via DexScreener · 28.8k handshake</div>
+        <div class="quote-split">
+          <div class="quote-table-wrap">
+            <table class="quote-table">
+              <thead>
+                <tr><th>Symbol</th><th>Last</th><th>% 24h</th><th>Vol</th></tr>
+              </thead>
+              <tbody id="quote-rows">
+                <tr><td colspan="4" class="dim">dialing quote.signed-in.local…</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="quote-side">
+            <div class="pit-h">THE PIT</div>
+            <div id="quote-wallet" class="pit-wallet">wallet: not signed in</div>
+            <div id="quote-focus" class="pit-focus">no pair selected</div>
+            <div id="pit-live" class="pit-live">signed in here: only you (this machine)</div>
+            <input id="pit-url" class="pit-url" placeholder="Cloudflare Worker URL voor live pit" />
+            <div class="pit-actions">
+              <button id="pit-watch">Watch</button>
+              <button id="pit-up">Conviction ▲</button>
+              <button id="pit-dn">Conviction ▼</button>
+            </div>
+            <div class="pit-h">Watching</div>
+            <div id="pit-list" class="pit-list"></div>
+            <div class="pit-h">Slips</div>
+            <div id="pit-slips" class="pit-list"></div>
+          </div>
+        </div>
+        <div class="quote-foot">
+          The pit is who stayed. Charts are everywhere — a buddy list for a candle is not.
+        </div>
+      </div>
+    </div>
+
+    <!-- Paint -->
+    <div class="window hidden" id="paint" data-task="untitled - Paint" style="left:160px;top:40px;width:560px;height:420px;">
+      <div class="titlebar">
+        <div class="wicon">🎨</div>
+        <div class="wtit">untitled - Paint</div>
+        <div class="ctrls">
+          <div class="ctrl" data-act="min">_</div>
+          <div class="ctrl" data-act="max">□</div>
+          <div class="ctrl close" data-act="close">✕</div>
+        </div>
+      </div>
+      <div class="menubar">
+        <span id="paint-new">New</span>
+        <span id="paint-save">Save</span>
+        <span>Help</span>
+      </div>
+      <div class="wbody paint-body">
+        <div class="paint-tools" id="paint-tools">
+          <button data-ptool="pencil" class="on" title="pencil">✎</button>
+          <button data-ptool="eraser" title="eraser">▭</button>
+          <button data-ptool="fill" title="fill">🪣</button>
+          <button data-ptool="line" title="line">╱</button>
+          <button data-ptool="rect" title="rectangle">□</button>
+        </div>
+        <div class="paint-stage" id="paint-stage">
+          <canvas id="paint-c" width="480" height="320"></canvas>
+        </div>
+        <div class="paint-colors" id="paint-colors"></div>
+      </div>
+    </div>
+
+    <!-- License -->
+    <div class="window hidden" id="license" data-task="SIGNED IN Professional" style="left:220px;top:80px;width:420px;height:340px;">
+      <div class="titlebar">
+        <div class="wicon">🪪</div>
+        <div class="wtit">SIGNED IN Professional</div>
+        <div class="ctrls">
+          <div class="ctrl" data-act="min">_</div>
+          <div class="ctrl" data-act="max">□</div>
+          <div class="ctrl close" data-act="close">✕</div>
+        </div>
+      </div>
+      <div class="wbody license-body">
+        <div class="lic-banner">SIGNED IN Professional</div>
+        <div id="lic-status" class="lic-status">License status: NOT ACTIVATED</div>
+        <p class="lic-copy">$SIGNED is a license, not taxi money. Anyone can read the tape. Holders unlock Quick Trade on this machine.</p>
+        <div class="lic-lab">License token: $SIGNED</div>
+        <div id="lic-mint-view" class="lic-mint-view">Contract: not issued yet</div>
+        <div class="lic-row">
+          <button id="lic-check">Recheck wallet</button>
+        </div>
+        <p class="lic-foot" id="lic-foot">Official mint comes from SIGNED IN, not from this window.</p>
+      </div>
+    </div>
+
+    <!-- Transfer wizard -->
+    <div class="window hidden" id="wizard" data-task="Transfer Wizard" style="left:260px;top:90px;width:460px;height:420px;">
+      <div class="titlebar">
+        <div class="wicon">🌐</div>
+        <div class="wtit">Internet Money Transfer Wizard</div>
+        <div class="ctrls">
+          <div class="ctrl" data-act="min">_</div>
+          <div class="ctrl close" data-act="close">✕</div>
+        </div>
+      </div>
+      <div class="wbody wizard-body">
+        <div class="wiz-side"></div>
+        <div class="wiz-main">
+          <h3>Buy from the tape</h3>
+          <p id="wiz-pair">No print selected.</p>
+          <div class="wiz-grid">
+            <span>Spend</span>
+            <span><input id="wiz-amt" value="0.1" /> <select id="wiz-unit"><option>SOL</option><option>ETH</option></select></span>
+            <span>Expected</span><span id="wiz-out">—</span>
+            <span>Slippage</span><span>1.0%</span>
+            <span>Price impact</span><span id="wiz-imp">—</span>
+          </div>
+          <p class="wiz-warn">The tape says look. You choose. SIGNED IN never holds your keys. Quotes can fail; then we open the public pit.</p>
+          <div class="wiz-nav">
+            <button id="wiz-cancel">Cancel</button>
+            <button id="wiz-quote">Refresh quote</button>
+            <button id="wiz-go" class="wiz-go">Continue</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="taskbar">
+    <button id="start-btn">⊞ start</button>
+    <div id="tasks"></div>
+    <div id="tray">
+      <span class="dot" title="signed in"></span>
+      <span id="memtray">◆ 3</span>
+      <span id="waltray" title="wallet">off</span>
+      <span id="protray" title="license">STD</span>
+      <span class="clk" id="clk">1:47 AM</span>
+    </div>
+  </div>
+
+  <div id="start-menu">
+    <div class="user">
+      <div class="avatar">🌙</div>
+      <div>you<br><span style="font-weight:400;font-size:11px;opacity:.85">Administrator of the long night</span></div>
+    </div>
+    <div class="left">
+      <div class="sitem" onclick="SignedIn.openApp('msn')"><span>🟢</span><div><b>MSN Messenger</b><br><small>everyone you didn't call</small></div></div>
+      <div class="sitem" onclick="SignedIn.openApp('winamp')"><span>🧡</span><div><b>Winamp</b><br><small>it really whips the llama's ass</small></div></div>
+      <div class="sitem" onclick="SignedIn.openApp('ledger')"><span>📒</span><div><b>Night Ledger</b><br><small>tycoon of staying</small></div></div>
+      <div class="sitem" onclick="SignedIn.openApp('note')"><span>📄</span><div>readme.txt</div></div>
+      <div class="sitem" onclick="SignedIn.openApp('soli')"><span>🃏</span><div>Solitaire</div></div>
+      <div class="sitem" onclick="SignedIn.openApp('mine')"><span>💣</span><div>Minesweeper</div></div>
+      <div class="sitem" onclick="SignedIn.openApp('quote')"><span>📈</span><div><b>Quote.com</b><br><small>after-hours ticker</small></div></div>
+      <div class="sitem" onclick="SignedIn.openApp('paint')"><span>🎨</span><div>Paint</div></div>
+      <div class="sitem" onclick="SignedIn.openApp('license')"><span>🪪</span><div><b>Professional</b><br><small>license status</small></div></div>
+    </div>
+    <div class="right">
+      <div class="sitem" onclick="SignedIn.openApp('comp')">My Computer</div>
+      <div class="sitem" onclick="SignedIn.openApp('recycle')">Recycle Bin</div>
+      <div class="sitem" onclick="SignedIn.openApp('license')">License</div>
+    </div>
+    <div class="shut">
+      <button id="reset">⏻ Sign Out</button>
+    </div>
+  </div>
+
+  <div id="toasts"></div>
+  <div id="hintbar">double-click MSN · play a song that matches someone · don't let them go offline</div>
+  <div id="ctx">
+    <div onclick="SignedIn.openApp('note')">New Text Document</div>
+    <div onclick="document.getElementById('hintbar').classList.add('show')">About SIGNED IN</div>
+    <hr />
+    <div onclick="document.getElementById('crt').style.opacity = document.getElementById('crt').style.opacity==='0'?'0.55':'0'">Toggle CRT</div>
+    <div onclick="SignedIn.openApp('ledger')">Arrange Icons</div>
+  </div>
+
+  <div id="wink-overlay" class="hidden">
+    <div class="wink-card">
+      <div class="wink-eye">😉</div>
+      <div class="wink-who" id="wink-who">jessxox sent you a wink</div>
+      <div class="wink-sub">it was slightly too sincere</div>
+    </div>
+  </div>
+  <div id="saver" class="hidden">
+    <canvas id="pipes"></canvas>
+    <div class="saver-hint">3D Pipes · move the mouse</div>
+  </div>
+  <div id="crt"></div>
+  <div id="grain"></div>
+  <script src="game.js"></script>
+</body>
+</html>
